@@ -1,0 +1,111 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins/Poppins-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Kanit';
+    src: url('/fonts/Kanit/Kanit-Regular.ttf');
+  }
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+body {
+  @apply font-poppins;
+  @apply text-sm;
+  @apply overflow-x-hidden;
+
+  margin : 0;
+}
+
+.custom-p-dropdown .p-dropdown-label {
+  @apply text-sm;
+  @apply font-poppins;
+}
+
+.custom-menubar {
+  background-color: transparent !important;
+  border : none !important;
+}
+
+.custom-menubar .p-menubar {
+background-color: transparent !important;
+}
+
+.custom-home-calendar .p-calendar .p-inputtext  {
+  background : transparent !important;
+  padding: 0.2rem 0.4rem; 
+  font-size: 0.85rem; 
+  @apply text-white;
+  @apply font-poppins;
+}
+
+ .p-calendar {
+  font-size: 0.75rem; 
+}
+
+ .p-datepicker {
+  width: 350px; 
+  height : 350px;
+  @apply font-poppins;
+}
+
+ .p-datepicker .p-datepicker-header {
+  padding: 0.2rem; 
+}
+
+ .p-datepicker .p-datepicker-title {
+  font-size: 0.75rem; 
+}
+
+ .p-datepicker .p-datepicker-prev,
+ .p-datepicker .p-datepicker-next {
+  width: 1rem;
+  height: 1rem;
+}
+
+ .p-datepicker .p-datepicker-calendar td,
+ .p-datepicker .p-datepicker-calendar th {
+  padding: 0.2rem; 
+}
+
+ .p-datepicker .p-datepicker-calendar .p-highlight {
+  background-color: #007ad9; 
+  color: #fff; 
+}
+
+ .p-datepicker .p-datepicker-today {
+  border-color: #007ad9; 
+}
+
+ .p-datepicker .p-datepicker-calendar {
+  font-size: 0.7rem; 
+}
+
+ .p-datepicker .p-datepicker-today .p-highlight {
+  background-color: #007ad9;
+  color: #fff;
+}
+
+.custom-dropdown-toolbar::placeholder {
+  color: white; 
+  opacity: 1; 
+  font-size : 0.85em;
+
+  @apply font-poppins;
+}
+
+.custom-dropdown-toolbar .p-dropdown-label {
+  color: white; 
+  opacity: 1; 
+  font-size : 0.85em;
+
+  @apply font-poppins;
+}
