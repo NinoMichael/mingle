@@ -5,7 +5,6 @@ import { AnimatePresence } from 'framer-motion'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Homepage from './pages/Home'
 import Login from './pages/Login'
-import HomeRegister from './pages/HomeRegister'
 
 function App() {
   const [loading, setLoading] = useState(false)
@@ -25,12 +24,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         <div className='min-h-screen'>
-          <Routes location={location} key={location.pathname}>
+          <Routes>
             <Route exact path="/" element={<Homepage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/home-register" element={<HomeRegister />} />
           </Routes>
         </div>
       </AnimatePresence>

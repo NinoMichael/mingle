@@ -27,5 +27,13 @@ body {
   margin : 0;
 }
 
+.custom-input::placeholder {
+  color: white !important;
+  opacity: 1; 
+}
 
+.custom-input {
+  background-color: transparent;
+  color: white;
+}
 

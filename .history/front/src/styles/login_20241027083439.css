@@ -1,0 +1,10 @@
+.custom-password-input .p-password input::placeholder {
+    color: white !important;
+    opacity: 1 !important; /* Rend le placeholder bien visible */
+}
+
+.custom-password-input .p-password input {
+    background-color: transparent !important;
+    color: white !important; 
+    border-color: white !important;
+}

@@ -27,5 +27,7 @@ body {
   margin : 0;
 }
 
-
+.custom-input::placeholder {
+  @apply text-white;
+}
 

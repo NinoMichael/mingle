@@ -1,0 +1,12 @@
+/* Cible l'élément d'entrée du composant Password pour la couleur de fond et le texte */
+.custom-password .p-password-input {
+    background-color: transparent !important; /* Assure que le fond est transparent */
+    color: white !important; /* Texte saisi en blanc */
+    border-color: white !important; /* Bordure blanche */
+}
+
+/* Cible spécifiquement le placeholder */
+.custom-password .p-password-input::placeholder {
+    color: white !important; /* Placeholder en blanc */
+    opacity: 1; /* Assure que le placeholder est bien visible */
+}
