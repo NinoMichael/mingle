@@ -1,0 +1,42 @@
+.custom-password .p-password-input {
+    background-color: transparent !important; 
+    color: white !important; 
+    border-color: white !important; 
+}
+
+.custom-password .p-password-input::placeholder {
+    color: white !important;
+    opacity: 1; 
+}
+
+/* Conteneur pour l'OTP */
+.otp-container {
+    display: flex; /* Utilise flex pour aligner les champs de manière horizontale */
+    justify-content: center; /* Centre les champs */
+}
+
+/* Styles personnalisés pour chaque champ OTP */
+.custom-otp-input .p-inputtext {
+    background-color: transparent !important; /* Fond transparent */
+    border: 1px solid white !important; /* Bordure blanche */
+    color: white; /* Couleur du texte */
+    width: 60px; /* Largeur de chaque champ */
+    height: 50px; /* Hauteur de chaque champ */
+    margin: 0 5px; /* Espacement entre les champs */
+    box-sizing: border-box; /* Pour s'assurer que la bordure est incluse dans la largeur */
+}
+
+/* Assurez-vous que les champs ne prennent pas de styles par défaut */
+.custom-otp-input .p-inputtext:focus {
+    border-color: white !important; /* Bordure blanche lors du focus */
+    outline: none; /* Supprime le contour par défaut */
+}
+
+.custom-otp-input .p-inputtext::placeholder {
+    color: white; /* Couleur des placeholders si nécessaire */
+}
+
+/* Pour appliquer à chaque champ */
+.p-inputotp .p-inputtext {
+    border-radius: 4px; /* Pour un léger arrondi des coins, ajustez si besoin */
+}

@@ -1,0 +1,31 @@
+.custom-password .p-password-input {
+    background-color: transparent !important; 
+    color: white !important; 
+    border-color: white !important; 
+}
+
+.custom-password .p-password-input::placeholder {
+    color: white !important;
+    opacity: 1; 
+}
+
+.custom-otp-input-sample {
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    font-size: 24px;
+    appearance: none;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid white;
+    background: transparent;
+    outline-offset: -2px;
+    outline-color: transparent;
+    border-radius: 8px;
+    transition: outline-color 0.3s;
+    color: var(--text-color);
+}
+
+.custom-otp-input-sample:focus {
+    outline: 2px solid var(--primary-color);
+}
