@@ -1,0 +1,56 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/fonts/Poppins/Poppins-Regular.ttf');
+  }
+
+  @font-face {
+    font-family: 'Kanit';
+    src: url('/fonts/Kanit/Kanit-Regular.ttf');
+  }
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+body {
+  @apply font-poppins;
+  @apply text-sm;
+  @apply overflow-hidden;
+  @apply bg-blackPure;
+  @apply text-white;
+
+  margin : 0;
+}
+
+/* Style pour le fond du TabMenu */
+.custom-tabmenu .p-tabmenu-nav {
+  @apply bg-blackAccent;
+  @apply border-none;
+  padding: 5px;
+}
+
+/* Style pour chaque onglet */
+.custom-tabmenu .p-tabmenu-nav li {
+  @apply bg-blackAccent;
+  border-radius: 4px;
+  margin-right: 4px;
+}
+
+/* Style pour l'onglet actif */
+.custom-tabmenu .p-tabmenu-nav  li .p-tabmenuitem .p-menuitem-link {
+  @apply bg-blackAccent;
+}
+
+/* Effet de survol sur les onglets */
+.custom-tabmenu .p-tabmenu-nav li:not(.p-highlight):hover {
+  @apply bg-blackAccent;
+}
+
+
+
+

@@ -1,0 +1,8 @@
+.custom-input-search:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.custom-tabmenu .p-tabmenu ul .p-tabmenu-nav {
+    @apply bg-blackAccent
+}

@@ -1,0 +1,26 @@
+.custom-input-search:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.custom-tabmenu .p-tabmenu {
+    background-color: black; 
+    border-radius: 5px;
+}
+
+.custom-tabmenu .p-tabmenu-nav li {
+    background-color: #e0e0e0; 
+    border: none;
+    padding: 8px 16px;
+}
+
+/* Style pour l'onglet actif */
+.custom-tabmenu .p-tabmenu-nav .p-highlight {
+    background-color: #007ad9; /* Couleur de fond de l'onglet actif */
+    color: white; /* Couleur du texte de l'onglet actif */
+}
+
+/* Hover effect sur les onglets */
+.custom-tabmenu .p-tabmenu-nav li:hover {
+    background-color: #d0d0d0; /* Couleur au survol des onglets */
+}

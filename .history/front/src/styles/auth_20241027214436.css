@@ -1,0 +1,100 @@
+.custom-password .p-password-input {
+    background-color: transparent !important; 
+    color: white !important; 
+    border-color: white !important; 
+}
+
+.custom-password .p-password-input::placeholder {
+    color: white !important;
+    opacity: 1; 
+}
+
+.custom-otp-input-sample {
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    font-size: 24px;
+    appearance: none;
+    text-align: center;
+    transition: all 0.2s;
+    border: 1px solid white;
+    background: transparent;
+    outline-offset: -2px;
+    outline-color: transparent;
+    border-radius: 8px;
+    transition: outline-color 0.3s;
+    color: var(--text-color);
+}
+
+.custom-otp-input-sample:focus {
+    outline: 2px solid var(--primary-color);
+}
+
+.p-calendar .p-inputtext  {
+    background : transparent !important;
+    padding: 0.2rem 0.4rem; 
+    font-size: 0.85rem; 
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-calendar {
+    font-size: 0.75rem; 
+  }
+  
+   .p-datepicker {
+    width: 350px; 
+    height : 350px;
+    @apply bg-blackAccent;
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-header {
+    padding: 0.2rem; 
+    @apply bg-blackAccent;
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-title {
+    font-size: 0.75rem; 
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-prev,
+   .p-datepicker .p-datepicker-next {
+    width: 1rem;
+    height: 1rem;
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-calendar td,
+   .p-datepicker .p-datepicker-calendar th {
+    padding: 0.2rem; 
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-calendar .p-highlight {
+    background-color: #007ad9; 
+    @apply text-white;
+    @apply font-poppins; 
+  }
+  
+   .p-datepicker .p-datepicker-today {
+    border-color: #007ad9; 
+  }
+  
+   .p-datepicker .p-datepicker-calendar {
+    font-size: 0.7rem; 
+    @apply text-white;
+    @apply font-poppins;
+  }
+  
+   .p-datepicker .p-datepicker-today .p-highlight {
+    background-color: #007ad9;
+    color: #fff;
+  }
