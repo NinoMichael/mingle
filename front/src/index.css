@@ -46,6 +46,10 @@ body {
   @apply text-sm;
 }
 
+.custom-spinner .p-progress-spinner-circle {
+  stroke: white !important;
+}
+
 
 
 

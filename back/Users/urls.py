@@ -8,4 +8,5 @@ urlpatterns = [
     path('user/<int:pk>/', UserDetailView.as_view(), name='client-detail'),
     path('contact/', ContactListCreateView.as_view(), name='contact-list-create'),
     path('contact/<int:pk>/', ContactDetailView.as_view(), name='contact-detail'),
+    path('login/', UserLoginView.as_view(), name='client-login'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

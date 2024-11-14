@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { InputText } from "primereact/inputtext"
 import { Button } from "primereact/button"
 import { TabMenu } from 'primereact/tabmenu'
@@ -6,11 +6,26 @@ import { Dialog } from "primereact/dialog"
 import { Avatar } from "primereact/avatar"
 import PropTypes from 'prop-types'
 import { motion, AnimatePresence } from "framer-motion"
+import { getContact } from "../API/contactService"
 
 import '../styles/chat.css'
 
 const ContactDialog = ({ visible, inputSearchContact, setInputSearchContact, setContactsDialog, activeIndex, setActiveIndex }) => {
     const [selectedUser, setSelectedUser] = useState(null)
+    const [contacts, setContacts] = useState([])
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                const data = await getContact()
+                setContacts(data)
+            } catch (error) {
+                console.error("Erreur lors de la récupération des contacts:", error)
+            }
+        }
+
+        fetchContacts()
+    }, [])
 
     const handleSelectedUser = (user) => {
         if (!selectedUser) {
@@ -20,26 +35,13 @@ const ContactDialog = ({ visible, inputSearchContact, setInputSearchContact, set
         }
     }
 
-    const suggestedUser = [
-        {
-            id: 1,
-            user: "Mirindra Harilala",
-            phoneNumber: "+261 32 45 678 90",
-        },
-        {
-            id: 2,
-            user: "Mirindra Harilala",
-            phoneNumber: "+261 32 45 678 90",
-        },
-    ]
-
     const tabItems = [
         {
             id: 1,
             label: 'Suggestions',
             content:
                 <div className="overflow-y-auto">
-                    {suggestedUser.map((user) => (
+                    {contacts.map((user) => (
                         <motion.argumentsdiv key={user.id} className="flex flex-row justify-between text-white hover:bg-blackPure rounded p-4"
                             onClick={() => handleSelectedUser(user)}
                             whileTap={{ scale: 0.95 }}
@@ -47,11 +49,14 @@ const ContactDialog = ({ visible, inputSearchContact, setInputSearchContact, set
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.3 }}>
                             <div className="flex flex-row cursor-pointer justify-start space-x-4">
-                                <Avatar label="JC" shape="circle" className="font-poppins bg-blackPure" />
-
+                                {user.img ? (
+                                    <Avatar image={`http://127.0.0.1:8000${user.img}`} shape="circle" className="font-poppins bg-blackPure" />
+                                ) : (
+                                    <Avatar label={user.user.charAt(0)} shape="circle" className="font-poppins bg-blackPure" />
+                                )}
                                 <div className="flex flex-col font-poppins -mt-6">
                                     <h4 className="text-sm">{user.user}</h4>
-                                    <span className="text-xs -mt-4">{user.phoneNumber}</span>
+                                    <span className="text-xs -mt-4">{user.numero}</span>
                                 </div>
                             </div>
 
@@ -135,18 +140,22 @@ const ContactDialog = ({ visible, inputSearchContact, setInputSearchContact, set
                                 transition={{ duration: 0.5, ease: "easeInOut", delay: 0.1 }}
                             >
                                 <div>
-                                    <Avatar label="JC" size="xlarge" shape="circle" className="ms-36 me-36 text-white bg-blackPure flex justify-center items-center" />
+                                    {selectedUser.img ? (
+                                        <Avatar image={`http://127.0.0.1:8000${selectedUser.img}`} size="xlarge" shape="circle" className="ms-36 me-36 text-white bg-blackPure flex justify-center items-center" />
+                                    ) : (
+                                        <Avatar label={selectedUser.user.charAt(0)} size="xlarge" shape="circle" className="ms-36 me-36 text-white bg-blackPure flex justify-center items-center" />
+                                    )}
                                     <div className="mt-3 text-center">
                                         <h3 className="font-poppins">{selectedUser.user}</h3>
-                                        <p className="-mt-4 font-poppins text-xs"><i className="pi pi-map-marker me-3 text-[0.8em]"></i>Habite à Soanierana</p>
+                                        <p className="-mt-4 font-poppins text-xs"><i className="pi pi-map-marker me-3 text-[0.8em]"></i>Habite à {selectedUser.location}</p>
                                     </div>
                                 </div>
 
                                 <div className="mt-4 mx-12">
                                     <h4 className="font-poppins text-sm">Contacts</h4>
                                     <div>
-                                        <p className="text-sm text-white font-poppins"><i className="pi pi-phone me-3"></i>{selectedUser.phoneNumber}</p>
-                                        <p className="text-sm text-white font-poppins"><i className="pi pi-envelope me-3"></i>tix@gmail.com</p>
+                                        <p className="text-sm text-white font-poppins"><i className="pi pi-phone me-3"></i>{selectedUser.numero}</p>
+                                        <p className="text-sm text-white font-poppins"><i className="pi pi-envelope me-3"></i>{selectedUser.email}</p>
                                     </div>
                                 </div>
 

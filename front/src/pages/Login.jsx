@@ -6,16 +6,21 @@ import { Button } from "primereact/button"
 import { useState, useEffect } from "react"
 import { Divider } from 'primereact/divider'
 import { Link, useNavigate } from 'react-router-dom'
+import { login } from '../API/AuthService'
+import { Toast } from 'primereact/toast'
+import { useRef } from 'react'
 
 import logo from '../assets/icons/logo.png'
 import '../styles/auth.css'
 
 const Login = () => {
     const navigate = useNavigate()
+    const toast = useRef(null)
 
     const [identifiant, setIdentifiant] = useState('')
     const [mdp, setMdp] = useState('')
     const [logoLoaded, setLogoLoaded] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const img = new Image()
@@ -28,9 +33,27 @@ const Login = () => {
         visible: { opacity: 1, y: 0 }
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        navigate('/chat-discussion')
+        setLoading(true)
+
+        setTimeout(async () => {
+            setLoading(false)
+            try {
+                const data = await login(identifiant, mdp)
+                console.log("Tokens reçus :", data.tokens)
+
+                navigate("/chat-discussion")
+            } catch (error) {
+                console.log(error)
+                toast.current.show({
+                    severity: 'error',
+                    summary: 'Authentification échouée',
+                    detail: 'Identifiant ou mot de passe incorrect',
+                    life: 3000
+                })
+            }
+        }, 2000)
     }
 
     return (
@@ -80,9 +103,11 @@ const Login = () => {
                         </FloatLabel>
                     </div>
 
-                    <Button label="Se connecter" className="w-full text-white text-sm bg-blueSlate font-poppins mt-12 border border-none outline outline-none" />
+                    <Button type="submit" loading={loading} label="Se connecter" className="w-full text-white text-sm bg-blueSlate font-poppins mt-12 border border-none outline outline-none" />
                 </motion.form>
             </main>
+
+            <Toast ref={toast} position="bottom-right" className="font-poppins text-xs absolute mt-52 top-52 right-1" />
         </motion.div>
     )
 }

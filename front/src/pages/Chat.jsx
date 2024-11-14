@@ -9,19 +9,25 @@ const Chat = () => {
     const [messages, setMessages] = useState([])
     const [selectedMessage, setSelectedMessage] = useState(null)
     const [msgContent, setMsgContent] = useState(false)
+    const [chatWithUser, setChatWithUser] = useState(null)
 
     const handleSelectMessage = (message) => {
         setSelectedMessage(message)
         setMsgContent(true)
     }
 
+    const handleSelectUser = (newChat) => {
+        setChatWithUser(newChat)
+        setSelectedMessage(newChat)
+    }
+
     const handleSubmitMessage = (message) => {
-        setMessages((prevMessages) => [...prevMessages, { text: message, isUser: false }])
+        setMessages((prevMessages) => [...prevMessages, { text: message, isUser: true }])
     }
 
     return (
         <>
-            <SideMenuChat onSelectMessage={handleSelectMessage} />
+            <SideMenuChat onSelectMessage={handleSelectMessage} chatWithUser={chatWithUser} onDataChange={handleSelectUser} />
 
             <motion.div initial="hidden" animate="visible" exit="hidden" transition={{ duration: 0.8 }} className="bg-blackPure w-[75vw] ms-[25vw]">
                 {!msgContent && !selectedMessage ? (
@@ -39,7 +45,7 @@ const Chat = () => {
                         >
                             <div className="flex flex-col -mt-1">
                                 <h2 className="text-lg font-kanit text-white">{selectedMessage.user}</h2>
-                                <span className="text-xs -mt-4">{selectedMessage.phoneNumber}</span>
+                                <span className="text-xs -mt-4">{selectedMessage.numero}</span>
                             </div>
 
                             <ToolbarChat />

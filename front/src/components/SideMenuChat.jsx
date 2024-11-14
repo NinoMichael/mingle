@@ -9,17 +9,37 @@ import { Divider } from "primereact/divider"
 import ContactDialog from "./ContactDialog"
 import PropTypes from 'prop-types'
 import { useNavigate } from "react-router-dom"
+import NewChatDialog from "./NewChatDialog"
 
 import '../styles/chat.css'
+import LogoutDialog from "./LogoutDialog"
 
-const SideMenuChat = ({ onSelectMessage }) => {
+const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
     const [inputSearch, setInputSearch] = useState("")
     const [visible, setVisible] = useState(false)
     const [contactsDialog, setContactsDialog] = useState(false)
     const [inputSearchContact, setInputSearchContact] = useState("")
     const [activeIndex, setActiveIndex] = useState(0)
+    const [newChatDialog, setNewChatDialog] = useState(false)
+    const [visibleLogout, setVisibleLogout] = useState(false)
+
+    const user = JSON.parse(localStorage.getItem('user'))
 
     const navigate = useNavigate()
+
+    const logoutAction = () => {
+        setVisibleLogout(true)
+
+        setTimeout(() => {
+            setVisibleLogout(false)
+            localStorage.clear()
+            navigate('/login')
+        }, 3000)
+    }
+
+    const handleShowDialog = (bool) => {
+        setNewChatDialog(bool)
+    }
 
     const messagesHistory = [
         {
@@ -71,7 +91,7 @@ const SideMenuChat = ({ onSelectMessage }) => {
             id: 6,
             icon: "pi pi-sign-out",
             menu: "Se déconnecter",
-            url: '/login',
+            action: logoutAction
         },
     ]
 
@@ -84,9 +104,15 @@ const SideMenuChat = ({ onSelectMessage }) => {
                         <Sidebar visible={visible} onHide={() => setVisible(false)} content={() => (
                             <>
                                 <div className="flex flex-col justify-center items-center mt-8">
-                                    <Avatar shape="circle" label="NM" size="large" className="bg-blueSlate text-white font-poppins" />
-                                    <span className="mt-3 font-poppins text-white">Nino Michael</span>
-                                    <span className="mt-1 font-poppins text-xs text-white">+261 38 11 485 86</span>
+                                    {user.img ? (
+                                        <Avatar shape="circle" image={`http://127.0.0.1:8000${user.img}`} size="large" className="bg-blueSlate" />
+                                    ) : (
+                                        <Avatar shape="circle" label={user.identifiant.charAt(0)} size="large" className="bg-blueSlate text-white font-poppins" />
+                                    )
+                                    }
+
+                                    <span className="mt-3 font-poppins text-white">{user.identifiant}</span>
+                                    <span className="mt-1 font-poppins text-xs text-white">{user.numero}</span>
                                 </div>
 
                                 <Divider className="mt-10" />
@@ -146,11 +172,16 @@ const SideMenuChat = ({ onSelectMessage }) => {
         },
         {
             template: () => (
-                <div className="absolute bottom-5 right-5 z-20">
-                    <div className="rounded-[50%] bg-blueSlate text-white p-3 cursor-pointer" title="Nouveau message">
-                        <i className="pi pi-plus"></i>
+                <>
+                    <div className="absolute bottom-5 right-5 z-20">
+                        <div className="rounded-[50%] bg-blueSlate text-white p-3 cursor-pointer" title="Nouveau message" onClick={handleShowDialog}>
+                            <i className="pi pi-plus"></i>
+                        </div>
                     </div>
-                </div>
+
+                    <NewChatDialog visible={newChatDialog} onClickDialog={handleShowDialog} inputSearchContact={inputSearchContact} setInputSearchContact={setInputSearchContact}
+                        chatWithUser={chatWithUser} onDataChange={onDataChange} />
+                </>
             )
         }
     ]
@@ -163,12 +194,17 @@ const SideMenuChat = ({ onSelectMessage }) => {
                 <ContactDialog visible={contactsDialog} inputSearchContact={inputSearchContact} setContactsDialog={setContactsDialog}
                     setInputSearchContact={setInputSearchContact} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
             </>
+
+            <LogoutDialog visibleLogout={visibleLogout} setVisibleLogout={setVisibleLogout} />
+
         </section>
     )
 }
 
 SideMenuChat.propTypes = {
     onSelectMessage: PropTypes.func.isRequired,
+    chatWithUser: PropTypes.object,
+    onDataChange: PropTypes.func.isRequired,
 }
 
 export default SideMenuChat

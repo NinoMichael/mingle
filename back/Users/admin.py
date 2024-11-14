@@ -3,8 +3,8 @@ from .models import User, Contact
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'identifiant', 'email', 'created_at', 'updated_at')
-    search_fields = ('nom', 'identifiant', 'email')
+    list_display = ('nom', 'identifiant', 'numero', 'email', 'location', 'created_at', 'updated_at')
+    search_fields = ('nom', 'identifiant', 'numero', 'email')
     list_filter = ('created_at', 'updated_at')
     ordering = ('created_at',)
     readonly_fields = ('created_at', 'updated_at')
