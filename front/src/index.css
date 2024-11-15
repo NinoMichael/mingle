@@ -50,6 +50,21 @@ body {
   stroke: white !important;
 }
 
+.custom-tieredmenu .p-tieredmenu-root-list {
+  @apply bg-blackAccent;
+}
+
+.p-tieredmenu .p-submenu-list {
+  @apply bg-blackAccent;
+  @apply rounded;
+}
+
+.p-tieredmenu .p-menuitem > .p-menuitem-content .p-menuitem-link .p-menuitem-text {
+  color : white !important;
+}
+
+
+
 
 
 

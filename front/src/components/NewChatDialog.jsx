@@ -19,15 +19,15 @@ const NewChatDialog = ({ visible, onClickDialog, inputSearchContact, setInputSea
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const data = await getContact()
+                const data = await getContact(localStorage.getItem('access_token'))
                 setContacts(data)
             } catch (error) {
                 console.error("Erreur lors de la récupération des contacts:", error)
             }
         }
-
         fetchContacts()
     }, [])
+
 
     return (
         <Dialog

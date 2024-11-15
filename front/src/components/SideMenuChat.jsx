@@ -13,6 +13,7 @@ import NewChatDialog from "./NewChatDialog"
 
 import '../styles/chat.css'
 import LogoutDialog from "./LogoutDialog"
+import SettingDialog from "./SettingDialog"
 
 const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
     const [inputSearch, setInputSearch] = useState("")
@@ -22,6 +23,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
     const [activeIndex, setActiveIndex] = useState(0)
     const [newChatDialog, setNewChatDialog] = useState(false)
     const [visibleLogout, setVisibleLogout] = useState(false)
+    const [visibleSetting, setVisibleSetting] = useState(false)
 
     const user = JSON.parse(localStorage.getItem('user'))
 
@@ -86,6 +88,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
             id: 5,
             icon: "pi pi-cog",
             menu: "Paramètres",
+            action: () => setVisibleSetting(true)
         },
         {
             id: 6,
@@ -120,7 +123,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
                                 <div className="mt-4">
                                     {menuSideBar.map((menuItem) => (
                                         <div key={menuItem.id} className="mb-3 flex px-10 hover:bg-blueSlate py-2 hover:rounded cursor-pointer"
-                                            onClick={menuItem.action ? menuItem.action : () => navigate(menuItem.url)}>
+                                            onClick={menuItem.action}>
                                             <span className="text-white text-sm font-poppins">
                                                 <i className={`${menuItem.icon} me-6`}></i>{menuItem.menu}
                                             </span>
@@ -195,6 +198,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
                     setInputSearchContact={setInputSearchContact} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
             </>
 
+            <SettingDialog visibleSetting={visibleSetting} setVisibleSetting={setVisibleSetting} />
             <LogoutDialog visibleLogout={visibleLogout} setVisibleLogout={setVisibleLogout} />
 
         </section>
