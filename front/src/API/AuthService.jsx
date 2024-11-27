@@ -1,18 +1,38 @@
-import axios from "axios"
+import axios from 'axios'
 
-const API_URL = 'http://localhost:8000/api/users/login/'
+const API_URL = 'http://127.0.0.1:8000/api/users/'
 
-export const login = async (identifiant, password) => {
-    const response = await axios.post(API_URL, {
-        identifiant: identifiant,
-        mdp: password
-    })
+const login = async (identifiant, mdp) => {
+    const response = await axios.post(`${API_URL}login/`, { identifiant, mdp })
+    if (response.data.access) {
+        localStorage.setItem('accessToken', response.data.access)
+        localStorage.setItem('refreshToken', response.data.refresh)
 
-    localStorage.setItem('access_token', response.data.tokens.access)
-    localStorage.setItem('refresh_token', response.data.tokens.refresh)
-    localStorage.setItem('user', JSON.stringify(response.data.user))
-
+        localStorage.setItem('user', JSON.stringify(response.data.user))
+    }
     return response.data
 }
 
+const logout = () => {
+    localStorage.clear()
+}
 
+const getAccessToken = () => localStorage.getItem('accessToken')
+
+const getRefreshToken = () => localStorage.getItem('refreshToken')
+
+const getUserAuthentified = () => {
+    const user = localStorage.getItem('user')
+    return user ? JSON.parse(user) : null
+}
+
+const isAuthenticated = () => !!getAccessToken()
+
+export default {
+    login,
+    logout,
+    getAccessToken,
+    getRefreshToken,
+    getUserAuthentified,
+    isAuthenticated,
+}

@@ -1,27 +1,35 @@
-import axios from 'axios'
+import axios from "axios"
 
-const API_URL_MESSAGES = 'http://127.0.0.1:8000/api/messages/'
+const API_BASE_URL = "http://127.0.0.1:8000/api/messaging/message/"
 
-export const getMessages = async (conversationId) => {
+export const sendMessage = async (contenu, emetteurId, destinataireId) => {
     try {
-        const response = await axios.get(`${API_URL_MESSAGES}?conversation_id=${conversationId}`, { mode: "cors" })
+        const response = await axios.post(
+            API_BASE_URL,
+            {
+                contenu,
+                emetteur_id: emetteurId,
+                destinataire_id: destinataireId,
+            },
+        )
         return response.data
     } catch (error) {
-        console.error("Erreur de récupération des messages:", error)
+        console.error("Erreur lors de l'envoi du message :", error.response?.data || error.message)
         throw error
     }
 }
 
-export const sendMessage = async (conversationId, emetteurId, contenuChiffre) => {
+export const fetchMessages = async (senderId, receiverId) => {
     try {
-        const response = await axios.post(API_URL_MESSAGES, {
-            conversation: conversationId,
-            emetteur: emetteurId,
-            contenu_chiffre: contenuChiffre
-        }, { mode: "cors" })
+        const response = await axios.get(
+            `http://127.0.0.1:8000/api/messaging/message/?senderId=${senderId}&receiverId=${receiverId}`
+        )
         return response.data
     } catch (error) {
-        console.error("Erreur d'envoi du message:", error)
+        console.error("Erreur lors de la récupération des messages :", error.response?.data || error.message)
         throw error
     }
 }
+
+
+

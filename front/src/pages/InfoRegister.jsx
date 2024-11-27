@@ -4,14 +4,13 @@ import { FloatLabel } from "primereact/floatlabel"
 import { Button } from "primereact/button"
 import { InputText } from "primereact/inputtext"
 import { useNavigate } from "react-router-dom"
-import { Calendar } from 'primereact/calendar'
 
 import logo from '../assets/icons/logo.png'
 
 const InfoRegister = () => {
     const [nom, setNom] = useState('')
     const [identifiant, setIdentifiant] = useState('')
-    const [birth, setBirth] = useState(null)
+    const [location, setLocation] = useState('')
     const [logoLoaded, setLogoLoaded] = useState(false)
 
     const navigate = useNavigate()
@@ -28,7 +27,12 @@ const InfoRegister = () => {
     }
 
     const handleValidate = () => {
-        navigate('/login')
+        if (nom && identifiant && location) {
+            localStorage.setItem('nom', nom)
+            localStorage.setItem('identifiant', identifiant)
+            localStorage.setItem('location', location)
+            navigate('/password-register')
+        }
     }
 
     return (
@@ -72,11 +76,11 @@ const InfoRegister = () => {
 
                     <div className="p-inputgroup flex-1 mt-8">
                         <span className="p-inputgroup-addon bg-transparent">
-                            <i className="pi pi-calendar text-white"></i>
+                            <i className="pi pi-map-marker text-white"></i>
                         </span>
                         <FloatLabel>
-                            <Calendar inputId="birth" value={birth} onChange={(e) => setBirth(e.value)} className="font-poppins text-sm border-white bg-transparent text-white custom-calendar" dateFormat="dd/mm/yy" />
-                            <label htmlFor="birth">Date de naissance</label>
+                            <InputText value={location} onChange={(e) => setLocation(e.target.value)} className="font-poppins text-sm border-white bg-transparent placeholder:text-white text-white" />
+                            <label htmlFor="Location">Location</label>
                         </FloatLabel>
                     </div>
 

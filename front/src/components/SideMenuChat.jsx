@@ -10,22 +10,26 @@ import ContactDialog from "./ContactDialog"
 import PropTypes from 'prop-types'
 import { useNavigate } from "react-router-dom"
 import NewChatDialog from "./NewChatDialog"
+import AuthService from "../API/AuthService"
 
 import '../styles/chat.css'
 import LogoutDialog from "./LogoutDialog"
 import SettingDialog from "./SettingDialog"
+import NotifDialog from "./NotifDialog"
 
 const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
     const [inputSearch, setInputSearch] = useState("")
     const [visible, setVisible] = useState(false)
     const [contactsDialog, setContactsDialog] = useState(false)
+    const [notifDialog, setNotifDialog] = useState(false)
     const [inputSearchContact, setInputSearchContact] = useState("")
+    const [inputSearchNotif, setInputSearchNotif] = useState("")
     const [activeIndex, setActiveIndex] = useState(0)
     const [newChatDialog, setNewChatDialog] = useState(false)
     const [visibleLogout, setVisibleLogout] = useState(false)
     const [visibleSetting, setVisibleSetting] = useState(false)
 
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = AuthService.getUserAuthentified()
 
     const navigate = useNavigate()
 
@@ -34,7 +38,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
 
         setTimeout(() => {
             setVisibleLogout(false)
-            localStorage.clear()
+            AuthService.logout()
             navigate('/login')
         }, 3000)
     }
@@ -76,8 +80,9 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
         },
         {
             id: 3,
-            icon: "pi pi-clock",
-            menu: "Historique",
+            icon: "pi pi-bell",
+            menu: "Notifications",
+            action: () => setNotifDialog(true)
         },
         {
             id: 4,
@@ -136,7 +141,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
                         )} className="w-[18vw] bg-blackPure" />
 
                         <div className="bg-blackPure rounded-3xl">
-                            <div className="p-inputgroup flex-1 ">
+                            <div className="p-inputgroup flex-1 border-white">
                                 <InputText
                                     type="text"
                                     value={inputSearch}
@@ -198,6 +203,7 @@ const SideMenuChat = ({ onSelectMessage, chatWithUser, onDataChange }) => {
                     setInputSearchContact={setInputSearchContact} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
             </>
 
+            <NotifDialog notifDialog={notifDialog} setNotifDialog={setNotifDialog} inputSearchNotif={inputSearchNotif} setInputSearchNotif={setInputSearchNotif} />
             <SettingDialog visibleSetting={visibleSetting} setVisibleSetting={setVisibleSetting} />
             <LogoutDialog visibleLogout={visibleLogout} setVisibleLogout={setVisibleLogout} />
 

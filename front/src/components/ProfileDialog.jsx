@@ -6,7 +6,7 @@ import { Button } from "primereact/button"
 import { Divider } from "primereact/divider"
 import { InputText } from "primereact/inputtext"
 
-const ProfileDialog = ({ visibleProfile, setVisibleProfile }) => {
+const ProfileDialog = ({ visibleProfile, setVisibleProfile, selectedMessage }) => {
     const [keyShare, setKeyShare] = useState("dflmdfsoespismlvckmlfbkcfmdgrdkgprdodmlkcc")
 
     return (
@@ -19,12 +19,16 @@ const ProfileDialog = ({ visibleProfile, setVisibleProfile }) => {
 
                     <section className="flex justify-between">
                         <div className="flex flex-row justify-start space-x-5">
-                            <Avatar label="NM" shape="circle" size="large" className="bg-blueSlate text-white" />
+                            {selectedMessage.img ? (
+                                <Avatar image={`http://127.0.0.1:8000${selectedMessage.imgContact}`} shape="circle" size="large" />
+                            ) : (
+                                <Avatar label={selectedMessage.contact.charAt(0)} shape="circle" size="large" className="bg-blueSlate text-white" />
+                            )}
 
                             <div className="flex flex-col text-sm text-white -mt-5">
-                                <p className="font-semibold font-poppins">Jerry</p>
-                                <p className="-mt-2 font-poppins text-xs" ><i className="pi pi-map-marker me-1"></i>Habite à Antananarivo</p>
-                                <p className="-mt-2 font-poppins text-xs" ><i className="pi pi-phone me-1"></i>+261 32 45 678 90</p>
+                                <p className="font-semibold font-poppins">{selectedMessage.contact}</p>
+                                <p className="-mt-2 font-poppins text-xs" ><i className="pi pi-map-marker me-1"></i>Habite à {selectedMessage.locationContact}</p>
+                                <p className="-mt-2 font-poppins text-xs" ><i className="pi pi-phone me-1"></i>{selectedMessage.numeroContact}</p>
                             </div>
                         </div>
 
@@ -38,11 +42,11 @@ const ProfileDialog = ({ visibleProfile, setVisibleProfile }) => {
                     <section className="grid grid-cols-2 mt-3">
                         <div>
                             <h5 className="font-kanit text-sm"><i className="pi pi-user me-2"></i>Nom</h5>
-                            <p className="text-sm font-poppins -mt-5">Nino Michael</p>
+                            <p className="text-sm font-poppins -mt-5">{selectedMessage.nomContact}</p>
                         </div>
                         <div>
                             <h5 className="font-kanit text-sm"><i className="pi pi-envelope me-2"></i>Adresse e-mail</h5>
-                            <p className="text-sm font-poppins -mt-5">ninomichael@gmail.com</p>
+                            <p className="text-sm font-poppins -mt-5">{selectedMessage.emailContact}</p>
                         </div>
                     </section>
 
@@ -67,7 +71,18 @@ const ProfileDialog = ({ visibleProfile, setVisibleProfile }) => {
 
 ProfileDialog.propTypes = {
     visibleProfile: PropTypes.bool.isRequired,
-    setVisibleProfile: PropTypes.func.isRequired
+    setVisibleProfile: PropTypes.func.isRequired,
+    selectedMessage: PropTypes.shape({
+        nom: PropTypes.string.isRequired,
+        email: PropTypes.string.isRequired,
+        numero: PropTypes.string.isRequired,
+        user: PropTypes.string.isRequired,
+        location: PropTypes.string.isRequired,
+        img: PropTypes.shape({
+            url: PropTypes.string.isRequired,
+            alt: PropTypes.string
+        }).isRequired
+    }).isRequired
 }
 
 export default ProfileDialog

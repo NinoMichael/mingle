@@ -4,12 +4,15 @@ import { Dialog } from "primereact/dialog"
 import { motion } from "framer-motion"
 import { Avatar } from "primereact/avatar"
 import PropTypes from 'prop-types'
-import { getContact } from "../API/contactService"
+import { getContacts } from "../API/ContactService"
+import AuthService from "../API/AuthService"
 
 import '../styles/chat.css'
 
 const NewChatDialog = ({ visible, onClickDialog, inputSearchContact, setInputSearchContact, chatWithUser, onDataChange }) => {
     const [contacts, setContacts] = useState([])
+
+    const userAuth = AuthService.getUserAuthentified()
 
     const ObjectUserChat = (user) => {
         onDataChange(user)
@@ -19,7 +22,7 @@ const NewChatDialog = ({ visible, onClickDialog, inputSearchContact, setInputSea
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const data = await getContact(localStorage.getItem('access_token'))
+                const data = await getContacts(userAuth.id)
                 setContacts(data)
             } catch (error) {
                 console.error("Erreur lors de la récupération des contacts:", error)
@@ -33,7 +36,7 @@ const NewChatDialog = ({ visible, onClickDialog, inputSearchContact, setInputSea
         <Dialog
             modal
             visible={visible}
-            onHide={() => { if (!visible) return; onClickDialog(false) }}
+            onHide={() => { if (!visible); return onClickDialog(false) }}
             content={({ hide }) => (
                 <form>
                     <div className="bg-blackPure rounded-3xl">
@@ -56,13 +59,13 @@ const NewChatDialog = ({ visible, onClickDialog, inputSearchContact, setInputSea
                                 transition={{ duration: 0.3 }}>
                                 <div className="flex flex-row cursor-pointer justify-start space-x-5">
                                     {user.img ? (
-                                        <Avatar image={`http://127.0.0.1:8000${user.img}`} shape="circle" className="font-poppins bg-blackPure" />
+                                        <Avatar image={`http://127.0.0.1:8000${user.imgContact}`} shape="circle" className="font-poppins bg-blackPure" />
                                     ) : (
-                                        <Avatar label={user.user.charAt(0)} shape="circle" className="font-poppins bg-blackPure" />
+                                        <Avatar label={user.contact.charAt(0)} shape="circle" className="font-poppins bg-blackPure" />
                                     )}
                                     <div className="flex flex-col font-poppins -mt-6">
-                                        <h4 className="text-sm">{user.user}</h4>
-                                        <span className="text-xs -mt-4">{user.numero}</span>
+                                        <h4 className="text-sm">{user.contact}</h4>
+                                        <span className="text-xs -mt-4">{user.numeroContact}</span>
                                     </div>
                                 </div>
                             </motion.argumentsdiv>

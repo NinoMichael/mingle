@@ -6,7 +6,7 @@ import { Button } from "primereact/button"
 import { useState, useEffect } from "react"
 import { Divider } from 'primereact/divider'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../API/AuthService'
+import AuthService from '../API/AuthService'
 import { Toast } from 'primereact/toast'
 import { useRef } from 'react'
 
@@ -40,8 +40,8 @@ const Login = () => {
         setTimeout(async () => {
             setLoading(false)
             try {
-                const data = await login(identifiant, mdp)
-                console.log("Tokens reçus :", data.tokens)
+                const response = await AuthService.login(identifiant, mdp)
+                console.log("Tokens reçus :", response)
 
                 navigate("/chat-discussion")
             } catch (error) {
@@ -71,7 +71,7 @@ const Login = () => {
                     <div className="mt-12">
                         <Divider />
                         <motion.p className="text-center text-xs mt-4" variants={fadeInUp} transition={{ delay: 0.4 }}>
-                            Vous n'avez pas encore de compte ? <Link to="" className="font-semibold text-white no-underline">Inscrivez-vous</Link>
+                            Vous n'avez pas encore de compte ? <Link to="/register" className="font-semibold text-white no-underline">Inscrivez-vous</Link>
                         </motion.p>
                     </div>
                 </section>

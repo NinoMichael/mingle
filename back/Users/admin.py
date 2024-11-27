@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import User, Contact
+from .models import Utilisateur, Contact
 
-@admin.register(User)
+@admin.register(Utilisateur)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('nom', 'identifiant', 'numero', 'email', 'location', 'created_at', 'updated_at')
+    list_display = ('id','nom', 'identifiant', 'numero', 'email', 'location', 'created_at', 'updated_at')
     search_fields = ('nom', 'identifiant', 'numero', 'email')
     list_filter = ('created_at', 'updated_at')
     ordering = ('created_at',)
@@ -11,7 +11,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('user', 'contact', 'statut', 'created_at')
+    list_display = ('id','user', 'contact', 'statut', 'created_at')
     search_fields = ('user__identifiant', 'contact__identifiant', 'statut')
     list_filter = ('statut', 'created_at')
     ordering = ('created_at',)

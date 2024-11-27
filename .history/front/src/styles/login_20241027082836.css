@@ -1,9 +1,0 @@
-.custom-input::placeholder {
-  color: white !important;
-  opacity: 1; 
-}
-
-.custom-input {
-  background-color: transparent !important;
-  color: white !important;
-}

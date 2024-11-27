@@ -20,7 +20,7 @@ class ConversationSerializer(serializers.ModelSerializer) :
 
 class ConversationUserSerializer(serializers.ModelSerializer) :
     conversation = serializers.PrimaryKeyRelatedField(queryset=Conversation.objects.all())
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
+    user = serializers.PrimaryKeyRelatedField(queryset=Utilisateur.objects.all())
 
     class Meta:
         model = ConversationUser
@@ -34,7 +34,7 @@ class ConversationUserSerializer(serializers.ModelSerializer) :
 
 class MessageSerializer(serializers.ModelSerializer) :
     emetteur = serializers.StringRelatedField(read_only=True)
-    conversation = serializers.PrimaryKeyRelatedField(queryset=Conversation.objects.all())
+    conversation = serializers.PrimaryKeyRelatedField(queryset=Conversation.objects.all(), required=False)
 
     class Meta : 
         model = Message

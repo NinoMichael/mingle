@@ -9,6 +9,10 @@ import Register from './pages/Register'
 import CodeVerification from './pages/CodeVerification'
 import InfoRegister from './pages/InfoRegister'
 import Chat from './pages/Chat'
+import PasswordRegister from './pages/PasswordRegister'
+import Welcome from './pages/Welcome'
+import AddAvatar from './pages/AddAvatar'
+import Rule from './pages/Rule'
 
 function App() {
   const [loading, setLoading] = useState(false)
@@ -36,6 +40,10 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/code-verification" element={<CodeVerification />} />
             <Route path="/info-register" element={<InfoRegister />} />
+            <Route path="/password-register" element={<PasswordRegister />} />
+            <Route path="/welcome" element={<Welcome />} />
+            <Route path="/add-avatar" element={<AddAvatar />} />
+            <Route path="/rule" element={<Rule />} />
             <Route path="/chat-discussion" element={<Chat />} />
           </Routes>
         </div>

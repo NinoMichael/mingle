@@ -3,7 +3,7 @@ from .models import Conversation, ConversationUser, Message, SessionCle
 
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'is_burn_mode', 'created_at', 'updated_at')
+    list_display = ('id' ,'is_burn_mode', 'created_at', 'updated_at')
     search_fields = ('participants__identifiant',)
     list_filter = ('is_burn_mode', 'created_at', 'updated_at')
     ordering = ('created_at',)
@@ -19,7 +19,7 @@ class ConversationUserAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'emetteur', 'conversation', 'created_at', 'expires_at')
+    list_display = ('id', 'emetteur', 'conversation', 'contenu', 'created_at', 'expires_at')
     search_fields = ('emetteur__identifiant', 'conversation__id', 'contenu_chiffre')
     list_filter = ('created_at', 'expires_at')
     ordering = ('created_at',)

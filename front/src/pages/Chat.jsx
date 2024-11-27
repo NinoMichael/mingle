@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import SideMenuChat from "../components/SideMenuChat"
 import ToolbarChat from "../components/ToolbarChat"
@@ -6,6 +6,7 @@ import ChatForm from "../components/ChatForm"
 import MessageBlock from "../components/MessageBlock"
 import { TieredMenu } from 'primereact/tieredmenu'
 import ProfileDialog from "../components/ProfileDialog"
+import { sendMessage, fetchMessages } from "../API/ChatService"
 
 const Chat = () => {
     const [messages, setMessages] = useState([])
@@ -13,10 +14,12 @@ const Chat = () => {
     const [msgContent, setMsgContent] = useState(false)
     const [chatWithUser, setChatWithUser] = useState(null)
     const [visibleProfile, setVisibleProfile] = useState(false)
+    const [hoveredMessageIndex, setHoveredMessageIndex] = useState(null)
 
-    console.log(localStorage.getItem('access_token'))
+    const user = JSON.parse(localStorage.getItem('user'))
 
     const menuOption = useRef(null)
+    const msgOption = useRef(null)
 
     const items = [
         {
@@ -61,6 +64,57 @@ const Chat = () => {
         }
     ]
 
+    const msgItems = [
+        {
+            label: 'Décrypter',
+            icon: 'pi pi-shield',
+            className: 'text-red-500'
+        },
+        {
+            label: 'Copier le texte',
+            icon: 'pi pi-copy',
+        },
+        {
+            label: 'Transférer',
+            icon: 'pi pi-share-alt',
+        },
+        {
+            label: 'Supprimer',
+            icon: 'pi pi-trash',
+            className: 'text-red-500'
+        },
+    ]
+
+    const verifyUser = (msg) => {
+        return msg.emetteur === user.identifiant ? true : false
+    }
+
+    // Déplacez la fonction loadMessages à l'extérieur de useEffect
+    const loadMessages = async (senderId, receiverId) => {
+        try {
+            const fetchedMessages = await fetchMessages(senderId, receiverId)
+
+            const formattedMessages = fetchedMessages.map(msg => ({
+                text: msg.contenu,
+                isUser: verifyUser(msg)
+            }))
+            setMessages(formattedMessages)
+
+        } catch (error) {
+            console.error("Erreur lors du chargement des messages :", error)
+        }
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (chatWithUser) {
+                loadMessages(user.id, chatWithUser.idContact)
+            }
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [chatWithUser])
+
     const handleSelectMessage = (message) => {
         setSelectedMessage(message)
         setMsgContent(true)
@@ -69,11 +123,19 @@ const Chat = () => {
     const handleSelectUser = (newChat) => {
         setChatWithUser(newChat)
         setSelectedMessage(newChat)
+        loadMessages(user.id, newChat.idContact) // Charge immédiatement les messages dès qu'un utilisateur est sélectionné
     }
 
-    const handleSubmitMessage = (message) => {
-        setMessages((prevMessages) => [...prevMessages, { text: message, isUser: true }])
+    const handleSubmitMessage = async (message) => {
+        try {
+            await sendMessage(message, user.id, selectedMessage.idContact)
+            setMessages((prevMessages) => [...prevMessages, { text: message, isUser: true }])
+        } catch (error) {
+            console.error("Erreur lors de l'envoi du message :", error)
+        }
     }
+
+    console.log(messages)
 
     return (
         <>
@@ -94,8 +156,8 @@ const Chat = () => {
                             transition={{ duration: 0.5 }}
                         >
                             <div className="flex flex-col -mt-1">
-                                <h2 className="text-lg font-kanit text-white">{selectedMessage.user}</h2>
-                                <span className="text-xs -mt-4">{selectedMessage.numero}</span>
+                                <h2 className="text-lg font-kanit text-white">{selectedMessage.contact}</h2>
+                                <span className="text-xs -mt-4">{selectedMessage.numeroContact}</span>
                             </div>
 
                             <ToolbarChat menuOption={menuOption} />
@@ -114,6 +176,11 @@ const Chat = () => {
                                         message={msg.text}
                                         isUser={msg.isUser}
                                         showAvatar={showAvatar}
+                                        msgItems={msgItems}
+                                        msgOption={msgOption}
+                                        isHovered={hoveredMessageIndex === index}
+                                        onMouseEnter={() => setHoveredMessageIndex(index)}
+                                        onMouseLeave={() => setHoveredMessageIndex(null)}
                                     />
                                 )
                             })}
@@ -123,7 +190,7 @@ const Chat = () => {
                     </>
                 )}
 
-                <ProfileDialog visibleProfile={visibleProfile} setVisibleProfile={setVisibleProfile} />
+                <ProfileDialog visibleProfile={visibleProfile} setVisibleProfile={setVisibleProfile} selectedMessage={selectedMessage} />
             </motion.div>
         </>
     )

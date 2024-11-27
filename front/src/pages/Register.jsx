@@ -57,7 +57,11 @@ const Register = () => {
     }
 
     const handleValidate = () => {
-        navigate('/code-verification')
+        if (email && phoneNumber) {
+            localStorage.setItem('email', email)
+            localStorage.setItem('numero', phoneNumber)
+            navigate('/code-verification')
+        }
     }
 
     return (
